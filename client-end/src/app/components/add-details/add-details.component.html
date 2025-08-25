@@ -1,0 +1,58 @@
+<div class="login-container">
+  <div class="login-box">
+    <h2>Add Details To Perfect Apartment</h2>
+    <form [formGroup]="formGroup" (ngSubmit)="login('apartment')">
+      <div class="input-container">
+        <label for="clean"></label>
+        <input type="number" id="clean" class="formControlLogin" formControlName="clean" required
+          placeholder="Enter your level of cleanliness">
+        <span class="errorText" *ngIf="formGroup.get('clean')?.invalid && mouseoverLogin"
+          [innerText]="'Mandatory field'">
+        </span>
+      </div>
+
+      <div class="input-container">
+        <label for="elevator"> </label>
+        <input type="boolean" id="elevator" class="formControlLogin" formControlName="elevator" required
+          placeholder="Enter if you want elevator">
+        <span class="errorText" *ngIf="formGroup.get('elevator')?.invalid && mouseoverLogin"
+          [innerText]="'Mandatory field'">
+        </span>
+      </div>
+
+      <div class="input-container">
+        <label for="trampoline"></label>
+        <input type="boolean" id="trampoline" class="formControlLogin" formControlName="trampoline" required
+          placeholder="Enter if you want trampoline">
+        <span class="errorText" *ngIf="formGroup.get('trampoline')?.invalid && mouseoverLogin"
+          [innerText]="'Mandatory field'">
+        </span>
+      </div>
+
+      <div class="input-container">
+        <label for="bigLivingRoom">
+        </label>
+        <input type="boolean" id="bigLivingRoom" class="formControlLogin" formControlName="bigLivingRoom" required
+          placeholder="Enter if you want bigLivingRoom">
+        <span class="errorText" *ngIf="formGroup.get('bigLivingRoom')?.invalid && mouseoverLogin"
+          [innerText]="'Mandatory field'">
+        </span>
+      </div>
+
+      <div class="input-container">
+        <label for="numRooms"></label>
+        <input type="number" id="numRooms" class="formControlLogin" formControlName="numRooms" required
+          placeholder="Enter your numRooms">
+        <span class="errorText" *ngIf="formGroup.get('numRooms')?.invalid && mouseoverLogin"
+          [innerText]="'Mandatory field'">
+        </span>
+      </div>
+
+      <div (mouseenter)="mouseoverLogin=true" (mouseleave)="mouseoverLogin=false">
+        <div class="divButton">
+          <button>Login</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

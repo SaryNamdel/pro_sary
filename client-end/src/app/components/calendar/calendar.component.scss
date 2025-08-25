@@ -1,0 +1,40 @@
+.calendar {
+    width: 20vw;
+    border: 1px solid #0a0909;
+    height: 60vh;
+}
+
+
+h3 {
+    text-align: center;
+}
+
+.keep-date {
+    display: flex;
+    margin: 5px;
+}
+
+.save {
+    margin: 7px;
+}
+
+button {
+    background-color: #8ebcfd;
+    border-radius: 3px;
+}
+
+.keep {
+    width: 4vw;
+    height: 5vh;
+    align-items: center;
+}
+
+button.save-date {
+    background: rgb(249, 254, 87);
+    border-radius: 100%;
+}
+
+.saveDates {
+    background-color: rgb(175, 177, 179);
+}
+

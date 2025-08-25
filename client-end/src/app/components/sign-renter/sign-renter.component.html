@@ -1,0 +1,185 @@
+<div class="login-container" *ngIf="detailsRenter">
+  <div class="login-box">
+    <h2>רישום משכיר</h2>
+    <form [formGroup]="formGroup1">
+
+      <div class="input-container">
+        <form [formGroup]="dynamicForm">
+          <label for="status" class="formLabel">:סטטוס משכיר</label>
+          <select class="chooseStatus" formControlName="fieldSelect" id="fieldSelect" (change)="onFieldChange()">
+            <option value="" disabled selected>בחר סטטוס משכיר</option>
+            <option value="existing">משכיר קיים</option>
+            <option value="showDetails">משכיר חדש</option>
+          </select>
+        </form>
+      </div>
+
+      <div class="input-container">
+        <label for="username">:שם משתמש</label>
+        <input type="text" id="username" class="formControlLogin" formControlName="username" required
+          placeholder="הכנס שם משכיר">
+        <span class="errorText" *ngIf="formGroup1.get('username')?.invalid && mouseoverLogin" [innerText]="'!שדה חובה'">
+        </span>
+      </div>
+
+      <div class="input-container">
+        <label for="password">:סיסמא</label>
+        <input type="password" class="formControlLogin" formControlName="password" required placeholder="הכנס סיסמא">
+        <span class="errorText" *ngIf="formGroup1.get('password')?.invalid && mouseoverLogin" [innerText]="'!שדה חובה'">
+        </span>
+      </div>
+
+      <div *ngIf="!showDetails" (mouseenter)="mouseoverLogin=true" (mouseleave)="mouseoverLogin=false">
+        <button [disabled]="formGroup1.invalid" (click)="login()">כניסה למערכת</button>
+        <span [innerText]="messege"></span>
+      </div>
+
+      <div *ngIf="showDetails">
+        <div class="input-container">
+          <label for="firstName">:שם פרטי</label>
+          <input type="text" id="firstName" class="formControlLogin" formControlName="firstName" required
+            placeholder="הכנס שם פרטי">
+          <span class="errorText" *ngIf="formGroup1.get('firstName')?.invalid && mouseoverLogin"
+            [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+        <div class="input-container">
+          <label for="lastName">:שם משפחה</label>
+          <input type="text" id="lastName" class="formControlLogin" formControlName="lastName" required
+            placeholder="הכנס שם משפחה">
+          <span class="errorText" *ngIf="formGroup1.get('lastName')?.invalid && mouseoverLogin"
+            [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+        <div class="input-container">
+          <label for="phone">:טלפון</label>
+          <input type="number" id="phone" class="formControlLogin" formControlName="phone" required
+            placeholder="הכנס מספר טלפון">
+          <span class="errorText" *ngIf="formGroup1.get('phone')?.invalid && mouseoverLogin" [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+        <div class="input-container">
+          <label for="email">:מייל</label>
+          <input type="text" id="email" class="formControlLogin" formControlName="email" required
+            placeholder="הכנס מייל">
+          <span class="errorText" *ngIf="formGroup1.get('email')?.invalid && mouseoverLogin" [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+        <div>
+          <!-- <button (click)="openDialogAddDetails()">כניסה למערכת</button> -->
+          <button (click)="login()">כניסה למערכת</button>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+
+
+@if(addDetails){
+<div class="login-container">
+  <div class="login-box">
+    <h2>הכנסת פרטים על הדירה</h2>
+    <form [formGroup]="formGroup2">
+
+      <div class="popup-container">
+        <div class="input-container">
+          <label for="city">:עיר</label>
+          <input type="text" id="city" class="formControlLogin" formControlName="city" required
+            placeholder="הכנס שם עיר">
+          <span class="errorText" *ngIf="formGroup2.get('city')?.invalid && mouseoverLogin" [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+        <div class="input-container">
+          <label for="rooms">:מספר חדרים</label>
+          <input type="number" id="rooms" class="formControlLogin" formControlName="rooms" required
+            placeholder="הכנס מספר חדרים">
+          <span class="errorText" *ngIf="formGroup2.get('rooms')?.invalid && mouseoverLogin" [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+        <div class="input-container">
+          <label for="beds">:מספר מיטות</label>
+          <input type="number" id="beds" class="formControlLogin" formControlName="beds" required
+            placeholder="הכנס מספר מיטות">
+          <span class="errorText" *ngIf="formGroup2.get('beds')?.invalid && mouseoverLogin" [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+        <div class="input-container">
+          <label for="parking">:חניה</label>
+          <input type="text" id="parking" class="formControlLogin" formControlName="parking" required
+            placeholder="הכנס האם יש לך חניה">
+          <span class="errorText" *ngIf="formGroup2.get('parking')?.invalid && mouseoverLogin"
+            [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+        <div class="input-container">
+          <label for="air_conditioning">:מיזוג</label>
+          <input type="text" id="air_conditioning" class="formControlLogin" formControlName="air_conditioning" required
+            placeholder="הכנס האם יש לך מיזוג בכל הדירה">
+          <span class="errorText" *ngIf="formGroup2.get('air_conditioning')?.invalid && mouseoverLogin"
+            [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+        <div class="input-container">
+          <label for="porch">:מרפסת</label>
+          <input type="text" id="porch" class="formControlLogin" formControlName="porch" required
+            placeholder="הכנס האם יש לך מרפסת">
+          <span class="errorText" *ngIf="formGroup2.get('porch')?.invalid && mouseoverLogin" [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+        <div class="input-container">
+          <label for="elevator">:מעלית</label>
+          <input type="text" id="elevator" class="formControlLogin" formControlName="elevator" required
+            placeholder="הכנס האם יש לך מעלית">
+          <span class="errorText" *ngIf="formGroup2.get('elevator')?.invalid && mouseoverLogin"
+            [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+        <div class="input-container">
+          <label for="accessibleness">:גישה לנכים</label>
+          <input type="text" id="accessibleness" class="formControlLogin" formControlName="accessibleness" required
+            placeholder="הכנס האם יש גישה לנכים">
+          <span class="errorText" *ngIf="formGroup2.get('accessibleness')?.invalid && mouseoverLogin"
+            [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+        <div class="input-container">
+          <label for="description">:תיאור עצמי</label>
+          <input type="text" id="description" class="formControlLogin" formControlName="description" required
+            placeholder="הכנס תיאור על הדירה">
+          <span class="errorText" *ngIf="formGroup2.get('description')?.invalid && mouseoverLogin"
+            [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+
+
+        <div (mouseenter)="mouseoverLogin=true" (mouseleave)="mouseoverLogin=false">
+          <button [disabled]="formGroup2.invalid" (click)="login()">כניסה למערכת</button>
+          <span [innerText]="messege"></span>
+        </div>
+
+        <div class="new-renter">
+          <span *ngIf="newRent"
+            [innerText]="'נרשמת בהצלחה למערכת מעכשיו תוכל לראות את מצב הדירות שלך ואת לוח ההשכרות'"></span>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+}
+
+
+
+<!-- [disabled]="formGroup2.invalid" -->

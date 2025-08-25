@@ -1,0 +1,152 @@
+<ul *ngIf="areas$ | async as areas">
+    <li *ngFor="let area of areas">
+      {{ area.areaName }}
+    </li>
+  </ul>
+
+<div class="button-toolbar" style="text-align: left;">
+    <hr class="top-line">
+    <div class="button-group">
+        <button class="btn" (click)="onSearch()" style="background-color: rgb(196, 168, 12); width: 7vw;">חיפוש</button>
+        <button class="btn" (click)="reset()" style="width: 7vw;">איפוס
+            <img [src]="img_navbar[3]" alt="Image" class="imgFilter" />
+        </button>
+        <button class="btn" (click)="toggleFilterModal()" style="width: 10vw;">סינונים נוספים
+            <img [src]="img_navbar[2]" alt="Image" class="imgFilter" />
+        </button>
+        <button class="btn" (click)="togglePriceModal()" style="width: 7vw;">מחיר
+            <img [src]="img_navbar[1]" alt="Image" class="imgFilter" />
+        </button>
+        <button class="btn" (click)="toggleBedsModal()" style="width: 7vw;">מיטות
+            <img [src]="img_navbar[0]" alt="Image" class="imgFilter" />
+        </button>
+        <input type="text" class="city-input btn" placeholder="אזור,עיר שכונה או רחוב" [(ngModel)]="city"
+            (input)="saveCity()" style="width: 12vw;"/>
+    </div>
+    <hr class="bottom-line">
+</div>
+
+
+<!-- price -->
+<div *ngIf="isModalPriceOpen" class="modal">
+    <button class="close" data-dismiss="modal" mat-button (click)="closePriceModal()">&times;</button>
+    <div class="price-range">
+        <div class="price-from">
+            <label for="priceFrom">מחיר מינימלי למיטה</label>
+            <!-- <input type="text" [(ngModel)]="priceFrom" [ngModelOptions]="{standalone: true}" currencyPipe /> -->
+            <input id="priceFrom" [(ngModel)]="priceFrom" min="150" max="1000" ng-reflect-model="259">
+            <input type="range" min="150" max="1000" [(ngModel)]="priceFrom" class="ng-valid ng-dirty ng-touched"
+                style="background-color: black; color: white;" ng-reflect-model="144">
+        </div>
+        <div class="price-to">
+            <label for="priceTo">מחיר מקסימלי למיטה</label>
+            <input id="priceTo" [(ngModel)]="priceTo" min="150" max="1000" ng-reflect-model="259">
+            <input type="range" min="150" max="1000" [(ngModel)]="priceTo" class="ng-valid ng-dirty ng-touched"
+                style="background-color: black; color: white;" ng-reflect-model="144">
+        </div>
+    </div>
+    <div class="button-container">
+        <button class="submit" (click)="closePriceModal()">אישור</button>
+    </div>
+</div>
+
+<!-- bed -->
+<div *ngIf="isModalBedOpen" class="popup-container">
+    <div class="rectangle">
+        <div class="circle" *ngFor="let number of beds" [ngClass]="{'selected': selectedBed === number}"
+            (click)="selectBed(number)"> {{ number }}
+        </div>
+        <button class="submit" (click)="closeBedModal()">אישור</button>
+    </div>
+</div>
+
+<!-- filter -->
+<div *ngIf="isModalFilterOpen" class="dialog-container">
+    <div class="dialog-header">
+        <!-- <div class="modal-header"> -->
+        <button class="close" data-dismiss="modal" mat-button (click)="closeFilterModal()">&times;</button>
+        <!-- </div> -->
+        <h2 class="dialog-title">סינונים נוספים
+            <i class="icon-large icon-adjust"></i>
+        </h2>
+    </div>
+    <div class="dialog-content">
+        <div class="dialog-item" *ngFor="let item of items; let i = index" (click)="selectItem(item)"
+            [ngClass]="{'select': selectFilter}">
+            {{ item }}
+            <img [src]="img[i]" alt="Image" class="imgFilter" />
+            <!-- <img [src]="pathImg('soragim')"/> -->
+            <!-- <span class="glyphicon glyphicon-film"></span> -->
+        </div>
+    </div>
+    <div class="dialog-footer">
+        <button class="confirm-button" (click)="closeFilterModal()">אישור</button>
+    </div>
+</div>
+
+<!-- map -->
+<div class="container">
+    <div class="map">
+        <h1>map</h1>
+    </div>
+    <!-- apartments -->
+    <div>
+        <div class="title">מאגר הדירות</div>
+        <div class="left-column" (click)="openDialogEnd()">
+            @for(a of apartments;track a){
+            <!-- <button (click)="goToComponent('/end')">Login</button> -->
+            <div class="rectangle-container">
+                <div class="rectangle-content" (mouseenter)="showButton = true" (mouseleave)="showButton = false">
+                    <span class="address" [innerText]="a.address"></span>
+                    <br>
+                    <span [innerText]="'קומה '"></span>
+                    <span [innerText]="a.numFloor"></span>
+                    <span [innerText]="' ★ '"></span>
+                    <span [innerText]="a.numRooms "></span>
+                    <span [innerText]="' חדרים'"></span>
+                    <span [innerText]="' ★ '"></span>
+                    <span [innerText]="a.numBeds"></span>
+                    <span>&nbsp;</span>
+                    <span [innerText]="'מיטות'"></span>
+                    <br><br>
+                    <div class="add">
+                        @if(a.park){
+                        <span class="description" [innerText]="'חניה'"></span>
+                        }
+                        @if(a.elevator){
+                        <span class="description" [innerText]="'מעלית'"></span>
+                        }
+                        @if(a.porch
+                        ){
+                        <span class="description" [innerText]="'מרפסת'"></span>
+                        }
+                        @if(a.accessibleness){
+                        <span class="description" [innerText]="'נגישות'"></span>
+                        }
+                        @if(a.protected_space){
+                        <span class="description" [innerText]="'ממד'"></span>
+                        }
+                        @if(a.air_conditioning){
+                        <span class="description" [innerText]="'מנגל'"></span>
+                        }
+                    </div>
+                    <div class="price">
+                        <span [innerText]="a.cost | currency: 'ILS'"></span>
+                    </div>
+                    <button *ngIf="showButton" class="btnForRent"  (click)="goToComponent('/end')">For Rent</button>
+
+                </div>
+                <span *ngFor="let img of a.images;let i=index">
+                    <img [src]="img" alt="Image" class="rectangle-image" />
+                </span>
+            </div>
+            }
+        </div>
+
+    </div>
+
+
+
+
+
+    

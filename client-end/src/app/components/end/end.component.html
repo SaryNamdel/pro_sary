@@ -1,0 +1,62 @@
+<!-- <h1>הדירה שבחרת</h1>
+<div class="rectangle-container">
+    <div class="rectangle-content">
+        <span class="address" [innerText]="apartment.address"></span>
+        <br>
+        <span [innerText]="'קומה '"></span>
+        <span [innerText]="apartment.numFloor"></span>
+        <span [innerText]="' ★ '"></span>
+        <span [innerText]="apartment.numRooms "></span>
+        <span [innerText]="' חדרים'"></span>
+        <span [innerText]="' ★ '"></span>
+        <span [innerText]="apartment.numBeds"></span>
+        <span>&nbsp;</span>
+        <span [innerText]="'מיטות'"></span>
+        <br><br>
+        <div class="add">
+            @if(apartment.park){
+            <span class="description" [innerText]="'חניה'"></span>
+            }
+            @if(apartment.elevator){
+            <span class="description" [innerText]="'מעלית'"></span>
+            }
+            @if(apartment.porch
+            ){
+            <span class="description" [innerText]="'מרפסת'"></span>
+            }
+            @if(apartment.accessibleness){
+            <span class="description" [innerText]="'נגישות'"></span>
+            }
+            @if(apartment.protected_space){
+            <span class="description" [innerText]="'ממד'"></span>
+            }
+            @if(apartment.air_conditioning){
+            <span class="description" [innerText]="'מנגל'"></span>
+            }
+        </div>
+        <div class="price">
+            <span [innerText]="apartment.cost | currency: 'ILS'"></span>
+        </div>
+    </div>
+</div>
+<div class="images">
+    <span *ngFor="let img of apartment.images;let i=index">
+        <img [src]="img" alt="Image" class="rectangle-image" />
+    </span>
+</div>
+
+<mat-form-field class="example-form-field">
+    <mat-label>לבחירת טווח תאריכים</mat-label>
+    <mat-date-range-input
+      [formGroup]="campaignOne"
+      [rangePicker]="campaignOnePicker"
+      [comparisonStart]="campaignTwo.value.start"
+      [comparisonEnd]="campaignTwo.value.end">
+      <input matStartDate placeholder="Start date" formControlName="start">
+      <input matEndDate placeholder="End date" formControlName="end">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+    <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+  </mat-form-field>
+  
+   -->

@@ -1,0 +1,48 @@
+<br><br><br>
+
+<div>
+    <div class="title">היסטורית הדירות שלך</div>
+    <div class="container">
+        <div class="left-column">
+            @for(a of apartments;track a){
+            <div class="rectangle-container">
+                <div class="rectangle-content">
+                    <span class="address" [innerText]="a.address"></span>
+                    <br>
+                    <span [innerText]="'קומה '"></span>
+                    <span [innerText]="a.numFloor"></span>
+                    <span [innerText]="' ★ '"></span>
+                    <span [innerText]="a.numRooms "></span>
+                    <span [innerText]="' חדרים'"></span>
+                    <span [innerText]="' ★ '"></span>
+                    <span [innerText]="a.numBeds"></span>
+                    <span>&nbsp;</span>
+                    <span [innerText]="'מיטות'"></span>
+                    <br><br>
+                    <div class="add">
+                        @if(a.park){
+                        <span class="description" [innerText]="'חניה'"></span>
+                        }
+                        @if(a.elevator){
+                        <span class="description" [innerText]="'מעלית'"></span>
+                        }
+                        @if(a.porch
+                        ){
+                        <span class="description" [innerText]="'מרפסת'"></span>
+                        }
+                        @if(a.accessibleness){
+                        <span class="description" [innerText]="'נגישות'"></span>
+                        }
+                    </div>
+                    <div class="price">
+                        <span [innerText]="a.cost | currency: 'ILS'"></span>
+                    </div>
+                </div>
+                <span *ngFor="let img of a.images;let i=index">
+                    <img [src]="img" alt="Image" class="rectangle-image" />
+                </span>
+            </div>
+            }
+        </div>
+    </div>
+</div>

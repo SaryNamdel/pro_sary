@@ -1,0 +1,78 @@
+<div class="login-container">
+  <div class="login-box">
+    <h2>רישום שוכר</h2>
+
+      <form [formGroup]="formGroup" (click)="login()">
+        <div class="input-container">
+          <form [formGroup]="dynamicForm">
+            <label for="status" class="formLabel">:סטטוס שוכר</label>
+            <select class="chooseStatus" FormControlName="status" placeholder="הכנס שם שוכר" id="fieldSelect"
+              formControlName="fieldSelect" (change)="onFieldChange()">
+              <option value="" disabled selected>בחר סטטוס שוכר</option>
+              <option value="">שוכר קיים</option>
+              <option value="showDetails">שוכר חדש</option>
+            </select>
+            <div *ngIf="showDetails">
+              <div class="input-container">
+                <label for="firstName">:שם פרטי</label>
+                <input type="text" id="firstName" class="formControlLogin" formControlName="firstName" required
+                  placeholder="הכנס שם פרטי">
+                <span class="errorText" *ngIf="formGroup.get('firstName')?.invalid && mouseoverLogin"
+                  [innerText]="'!שדה חובה'">
+                </span>
+              </div>
+              <div class="input-container">
+                <label for="lastName">:שם משפחה</label>
+                <input type="text" id="lastName" class="formControlLogin" formControlName="lastName" required
+                  placeholder="הכנס שם משפחה">
+                <span class="errorText" *ngIf="formGroup.get('lastName')?.invalid && mouseoverLogin"
+                  [innerText]="'!שדה חובה'">
+                </span>
+              </div>
+              <div class="input-container">
+                <label for="phone">:טלפון</label>
+                <input type="text" id="phone" class="formControlLogin" formControlName="phone" required
+                  placeholder="הכנס מספר טלפון">
+                <span class="errorText" *ngIf="formGroup.get('phone')?.invalid && mouseoverLogin"
+                  [innerText]="'!שדה חובה'">
+                </span>
+              </div>
+              <div class="input-container">
+                <label for="email">:מייל</label>
+                <input type="text" id="email" class="formControlLogin" formControlName="email" required
+                  placeholder="הכנס מייל">
+                <span class="errorText" *ngIf="formGroup.get('email')?.invalid && mouseoverLogin"
+                  [innerText]="'!שדה חובה'">
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="input-container">
+          <label for="username">:שם משתמש</label>
+          <input type="text" id="username" class="formControlLogin" formControlName="username" required
+            placeholder="הכנס שם שוכר">
+          <span class="errorText" *ngIf="formGroup.get('username')?.invalid && mouseoverLogin"
+            [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+        <div class="input-container">
+          <label for="password">:סיסמא</label>
+          <input type="password" class="formControlLogin" formControlName="password" required placeholder="הכנס סיסמא">
+          <span class="errorText" *ngIf="formGroup.get('password')?.invalid && mouseoverLogin"
+            [innerText]="'!שדה חובה'">
+          </span>
+        </div>
+        <div (mouseenter)="mouseoverLogin=true" (mouseleave)="mouseoverLogin=false">
+          <button [disabled]="formGroup.invalid">כניסה למערכת</button>
+        </div>
+      </form>
+
+
+      <div class="new-renter">
+        <span *ngIf="newRent"
+          [innerText]="'נרשמת בהצלחה למערכת מעכשיו תוכל לראות את היסטורית הדירות שלך'"></span>
+      </div>
+  </div>
+</div>

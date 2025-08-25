@@ -1,0 +1,86 @@
+.dialog-container {
+    width: 23vw;
+    height: 60vh;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+}
+
+.dialog-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    // border-radius: 6px;
+    // width: 60px;
+    // background-color: transparent;
+    font-size: 20px
+}
+
+// .right {
+//     direction: rtl;
+// }
+
+// .left {
+//     direction: ltr;
+// }
+
+.dialog-content {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.dialog-item {
+    border: 3px solid black;
+    margin: 5px;
+    border-radius: 8px;
+    width: 10vw;
+    height: 8vh;
+    text-align: center;
+    align-content: center
+}
+
+.dialog-footer {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.confirm-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: rgb(225, 127, 127);
+    color: #fff;
+    font-size: 20px;
+}
+
+h2 {
+    // text-align: center;
+    // direction: rtl;
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700
+}
+
+.confirm-button:hover {
+    background-color: rgb(239, 96, 96);
+    font-size: 25px;
+}
+
+.dialog-title {
+    margin: 0;
+    font-size: 18px;
+}

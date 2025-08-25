@@ -1,0 +1,117 @@
+.message {
+  border-radius: 50px;
+  position: relative;
+  font-size: 20px;
+}
+
+.message.to {
+  background-color: #2095FE;
+  color: #fff;
+  margin-left: 100px;
+  text-align: center;
+  margin: 0 15px 20px;
+  padding: 10px 20px;
+}
+
+.message.from {
+  color: #363636;
+  // margin: 3px;
+  margin-bottom: 5px;
+  right: -100px;
+}
+
+.message.to+.message.to,
+.message.from+.message.from {
+  margin-top: -10px;
+}
+
+// button {
+//   margin-right: 20px;
+//   background-color: #88baf1;
+//   margin: 3px;
+//   border-radius: 5px;
+//   width: 190px;
+// }
+
+input {
+  margin: 3px;
+  border-radius: 5px;
+  text-align-last: center;
+}
+
+.close:hover {
+  background-color: #f4a85b;
+  border-color: #034198;
+  color: #fff;
+}
+
+.sizePaper {
+  width: 40%;
+  direction: rtl;
+  justify-self: anchor-center;
+  text-align: right;
+  border-radius: 6px;
+  font-size: 20px;
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+  margin: 3px;
+  font-family: Arial, Helvetica, sans-serif
+}
+
+.container {
+  direction: rtl;
+  align-items: last baseline;
+  width: 100%;
+}
+
+.btn1 {
+  width: 190px;
+}
+
+.close {
+  border-radius: 6px;
+    width: 60px;
+    background-color: transparent;
+    font-size: 30px;
+    margin-right: 20px;
+    margin: 3px;
+    border-radius: 5px;
+}
+
+
+.bubble {
+  background-color: #f4a85b;
+  border-radius: 15px;
+  padding: 10px;
+  max-width: 300px;
+  position: relative;
+  margin: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  left: -100px;
+}
+
+.bubble:after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 20px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #f4a85b transparent;
+}
+
+.send-button {
+  margin-right: 20px;
+  background-color: #fbfcfc;
+  margin: 3px;
+  border-radius: 10px;
+  width: 190px;
+  border: 1px #f4a85b solid;
+}
+
+.send-button:hover{
+  border: 2px #ffa44a solid;
+}

@@ -1,0 +1,32 @@
+<div class="container">
+
+    <button class="close" data-dismiss="modal" mat-button (click)="close()">&times;</button>
+    <div class="sizePaper">
+        <ng-container *ngFor="let message of messages">
+            <div class="message" [ngClass]="{ 'from': message.author === 'bot',
+                        'bubble': message.author === 'user' }">
+                {{ message.content }}
+            </div>
+        </ng-container>
+        <label *ngIf="messages.length == 0" for="nameField" [innerText]="'שלום. אני בוט הדירות שלך
+       יחד נמצא את דירת החלומות'">
+        </label>
+        <input class="input-field" [(ngModel)]="value" (keyup.enter)="sendMessage()" type="text" placeholder="החלומות שלך...">
+        <div class="modal-footer">
+            <button class="send-button" (click)="sendMessage()">לשלוח</button>
+            <button class="send-button" (click)="continue('nav-bar/apartment')">לראות את כל הדירות המתאימות</button>
+            <button class="send-button" data-dismiss="modal" (click)="close()">סגירה</button>
+        </div>
+
+        <!-- <div mat-dialog-actions>
+            <button mat-button (click)="refresh()">Refresh</button>
+         
+        </div> -->
+
+
+
+        <!-- <div class="bubble">
+            <p>hello!!1</p>
+        </div> -->
+    </div>
+</div>

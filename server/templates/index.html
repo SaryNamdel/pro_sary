@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>רשימת דירות</title>
+</head>
+<body>
+    <h1>רשימת דירות</h1>
+    <ul>
+        {% for apartment in apartments %}
+        <li>{{ apartment.description }} - {{ apartment.fullAddress }} {{ apartment.numBeds }} ({{ apartment.price }})</li>
+        {% endfor %}
+    </ul>
+
+    <h2>הוסף דירה</h2>
+    <form id="apartmentForm">
+        <input type="text" name="description" placeholder="תיאור"><br>
+        <input type="text" name="fullAddress" placeholder="כתובת"><br>
+        <input type="number" name="price" placeholder="מחיר"><br>
+        <input type="number" name="numBeds" placeholder="מספר מיטות"><br>
+        <button >הוסף</button>
+    </form>
+    <script>
+        document.getElementById('apartmentForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            const res = await fetch('/api/apartment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
+            alert(result.message || result.description);
+            location.reload();
+        };
+    </script>
+</body>
+</html>

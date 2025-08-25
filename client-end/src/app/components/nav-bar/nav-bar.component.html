@@ -1,0 +1,43 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">חופשה בקלות-הנופש המושלם בתבל</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#home-page">דף הבית
+                        <span class="glyphicon glyphicon-home"></span></a></li>
+                <li><a (click)="openDialogBot()">בוט אישי
+                        <span class="glyphicon glyphicon-comment"></span>
+                    </a></li>
+                <li><a href="#End">סוף</a></li>
+                <li><a href="#apartment-pool">מאגר הדירות
+                        <span class="glyphicon glyphicon-align-center"></span>
+                    </a></li>
+                <!-- 
+                <li><a (click)="openDialogRenter()">
+                        <span class="glyphicon glyphicon-user"></span>{{status}}
+                    </a></li> -->
+
+
+                @if(this.renterService.getStatus() === 'רישום משכיר'){
+                <li><a (click)="openDialogSignRenter()">
+                        <span [innerText]="this.renterService.getStatus()" class="glyphicon glyphicon-user"></span>
+                    </a></li>
+                }
+                @else{
+                <li><a (click)="openDialogRenter()">
+                        <span [innerText]="this.renterService.getStatus()" class="glyphicon glyphicon-user"></span>
+                    </a></li>
+                }
+                <li><a (click)="openDialogCustomer()">רישום שוכר <span class="glyphicon glyphicon-signal"></span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
