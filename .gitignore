@@ -1,0 +1,26 @@
+# ---- Angular ----
+client-end/node_modules/
+client-end/dist/
+client-end/.angular/
+client-end/.env
+client-end/.vscode/
+client-end/package-lock.json
+
+# ---- Python ----
+server-end/__pycache__/
+server-end/*.py[cod]
+server-end/.venv/
+server-end/env/
+server-end/.env
+server-end/.pytest_cache/
+server-end/.mypy_cache/
+server-end/.vscode/
+
+# ---- System files ----
+*.log
+*.DS_Store
+Thumbs.db
+
+# ---- IDE configs ----
+.vscode/
+.idea/
