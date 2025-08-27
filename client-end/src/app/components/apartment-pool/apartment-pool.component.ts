@@ -53,7 +53,7 @@
 //       },
 //     });
 //   }
-  
+
 //   // apartments_data = this.loadApertment()
 
 
@@ -80,8 +80,8 @@
 //   img: string[] = ["/images/filter/park.svg", "/images/filter/elevator.svg", "/images/filter/protected_space.svg", "/images/filter/porch.svg", "/images/filter/air.svg", "/images/filter/accessibleness.svg"]
 //   img_navbar :string[] = ["/images/navbar_apartment/bed.svg", "/images/navbar_apartment/cash.svg", "/images/navbar_apartment/filter.svg", "/images/navbar_apartment/reset.svg"]
 
-  
- 
+
+
 
 //   onSearch() {
 //     this.apartments2 = [];
@@ -203,13 +203,12 @@ import { Component, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { NEVER, Observable } from 'rxjs';
+import { BehaviorSubject, NEVER, Observable } from 'rxjs';
 import { Apartment } from '../../models/Apartment';
 import { ApartmentHttpService } from '../../service/apartment-http.service';
-import { ImageHttpService } from '../../service/image-http.service';
 import { PriceComponent } from '../price/price.component';
-import { environment } from '../../../environments/environments';
 import { EndComponent } from '../end/end.component';
+import { forkJoin, map, switchMap } from 'rxjs';
 
 
 @Component({
@@ -220,16 +219,25 @@ import { EndComponent } from '../end/end.component';
 })
 export class ApartmentPoolComponent {
 
-  apartments_data: Apartment[] = [];
+  // apartments_data: Observable<Apartment[]> = NEVER as any;
   apartments: Apartment[] = [];                    // ← מוצג למסך
   apartments$: Observable<Apartment[]> = NEVER as any;
+  apartments2: Apartment[] = [];
+  apartments_data: Apartment[] = [];
 
   private apartmentService = inject(ApartmentHttpService);
   router = inject(Router);
   readonly dialog = inject(MatDialog);
-
   // UI state
-  apartments2: Apartment[] = [];
+
+
+  private apartments_data$ = new BehaviorSubject<Apartment[]>([]);
+  // readonly apartments$ = this.apts$.asObservable();
+
+  
+
+
+
   i = 1;
   isModalBedOpen = false;
   isModalPriceOpen = false;
@@ -245,69 +253,74 @@ export class ApartmentPoolComponent {
   selectFilter = false;
   showButton = false;
   city = '';
-  img: string[] = ["/images/filter/park.svg", "/images/filter/elevator.svg", "/images/filter/protected_space.svg", "/images/filter/porch.svg", "/images/filter/air.svg", "/images/filter/accessibleness.svg"];
-  img_navbar :string[] = ["/images/navbar_apartment/bed.svg", "/images/navbar_apartment/cash.svg", "/images/navbar_apartment/filter.svg", "/images/navbar_apartment/reset.svg"];
+  image: string[] = ["assets/images/filter/park.svg", "assets/images/filter/elevator.svg", "assets/images/filter/protected_space.svg", "assets/images/filter/porch.svg", "assets/images/filter/air.svg", "assets/images/filter/accessibleness.svg"];
+  img_navbar: string[] = ["assets/images/navbar_apartment/bed.svg", "assets/images/navbar_apartment/cash.svg", "assets/images/navbar_apartment/filter.svg", "assets/images/navbar_apartment/reset.svg"];
 
   constructor() {
-    this.loadApartmentsFromServer();
+    this.loadApartments();
   }
 
-  loadApartmentsFromServer() {
-    this.apartmentService.getApartments$().subscribe({
-      next: (data: Apartment[]) => {
-        // ממלא גם מקור (data) וגם התצוגה
-        this.apartments_data = data ?? [];
-        this.apartments = [...this.apartments_data];
-
-        // אם לכל דירה יש a.images כ־string[] של נתיבים יחסיים – נרנדר ל־URL מלא
-        this.apartments.forEach(a => {
-          if (Array.isArray((a as any).images)) {
-            (a as any).images = (a as any).images.map((p: string) => this.imageSrc(p));
-          
-            
-          }
-        });
-      },
-      error: (err: any) => {
-        console.error('שגיאה בטעינת דירות מהשרת:', err);
-      },
-    });
+  loadApartments() {
+    this.apartmentService.getApartments$()
+      .pipe(
+        switchMap(apts => {
+          this.apartments = apts;
+          this.apartments_data = apts;
+          return forkJoin(
+            apts.map(a =>
+              this.apartmentService.getImagesByApartment(a.apartmentId!)
+                .pipe(map(imgs => ({ a, imgs: (imgs ?? []).slice(0, 2) })))
+            )
+          );
+        })
+      )
+      .subscribe({
+        next: results => {
+          results.forEach(({ a, imgs }) => a.images = imgs);
+        },
+        error: err => console.error('שגיאה בטעינת דירות/תמונות:', err)
+      });
+      // this.apartments_data = this.apartments$
+      this.apartments_data = [...this.apartments];
   }
+
+
+
 
   // אם יש endpoint לתמונות – למחוק/להתאים. כרגע פונקציה זו נראית לא נכונה (משנה apartments למערך תמונות).
   // loadImagesFromServer() { ... }
 
   // הופך נתיב יחסי ל־URL מלא תחת ה־API (http://localhost:5000)
-  imageSrc(path: string): string {
-    if (!path) return '';
-    const isAbs = /^https?:\/\//i.test(path);
-    if (isAbs) return path;
-    const base = environment?.apiBase ?? 'http://localhost:5000';
-    return `${base}/${path.replace(/^\/+/, '')}`;
-  }
+  // imageSrc(path: string): string {
+  //   if (!path) return '';
+  //   const isAbs = /^https?:\/\//i.test(path);
+  //   if (isAbs) return path;
+  //   const base = environment?.apiBase ?? 'http://localhost:5000';
+  //   return `${base}/${path.replace(/^\/+/, '')}`;
+  // }
 
   onSearch() {
-    this.apartments2 = [];
-    for (let i = 0; i < this.apartments_data.length; i++) {
-      if ((this.apartments_data[i].park || !this.new_filters.includes('park')) &&
-          (this.apartments_data[i].elevator || !this.new_filters.includes('elevator')) &&
-          (this.apartments_data[i].porch || !this.new_filters.includes('porch')) &&
-          (this.apartments_data[i].protected_space || !this.new_filters.includes('protected_space')) &&
-          (this.apartments_data[i].air_conditioning || !this.new_filters.includes('air_conditioning')) &&
-          (this.apartments_data[i].accessibleness || !this.new_filters.includes('accessibleness')) &&
-          this.apartments_data[i].cost >= this.priceFrom && this.apartments_data[i].cost <= this.priceTo &&
-          this.apartments_data[i].numBeds >= this.selectedBed &&
-          this.apartments_data[i].address.includes(this.city)) {
-        this.apartments2.push(this.apartments_data[i]);
+    this.apartments_data = NEVER as any;
+    for (let i = 0; i < this.apartments.length; i++) {
+      if ((this.apartments[i].park || !this.new_filters.includes('park')) &&
+        (this.apartments[i].elevator || !this.new_filters.includes('elevator')) &&
+        (this.apartments[i].porch || !this.new_filters.includes('porch')) &&
+        (this.apartments[i].protected_space || !this.new_filters.includes('protected_space')) &&
+        (this.apartments[i].accessibleness || !this.new_filters.includes('accessibleness')) &&
+        this.apartments[i].priceToBed >= this.priceFrom && this.apartments[i].priceToBed <= this.priceTo &&
+        this.apartments[i].numBeds >= this.selectedBed &&
+        this.apartments[i].address.includes(this.city)) {
+        // this.apartments_data.push(this.apartments[i]);
+        this.apartments_data$.next([...this.apartments_data$.value, this.apartments[i]]);
       }
     }
     // לאחר סינון – להציב את התוצאה לתצוגה
-    this.apartments = [...this.apartments2];
+    // this.apartments_data = [...this.apartments];
     this.new_filters = [];
   }
 
   reset() {
-    this.apartments = [...this.apartments_data];
+    this.apartments_data = [...this.apartments];
     this.city = '';
   }
 
@@ -320,7 +333,7 @@ export class ApartmentPoolComponent {
     }
     this.apartments = res;
   }
- 
+
 
 
   // constructor(public dialog: MatDialog) { }
@@ -387,8 +400,8 @@ export class ApartmentPoolComponent {
       this.new_filters.push('park')
     if (item === 'מעלית')
       this.new_filters.push('elevator')
-    if (item === 'מיזוג')
-      this.new_filters.push('air_conditioning')
+    if (item === 'מנגל')
+      this.new_filters.push('mangal')
     if (item === 'גישה לנכים')
       this.new_filters.push('accessibleness')
     if (item === 'ממ"ד')
@@ -405,4 +418,12 @@ export class ApartmentPoolComponent {
         height: '80vh'
       });
   }
+
+  imageSrc(name: string): string {
+    if (!name) return '';
+    return `assets/images/apartment/${name}`;
+  }
+
+
+
 }

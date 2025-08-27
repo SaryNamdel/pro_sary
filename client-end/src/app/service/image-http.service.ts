@@ -3,9 +3,20 @@ import { Observable } from 'rxjs';
 import { HttpServiceBase } from './http-service.base';
 import { HttpRequestModel } from '../models/http-request.model';
 import { Image } from '../models/Image';
+import { environment } from '../../environments/environments';
+
+
+
+
+
 
 @Injectable({  providedIn: 'root'})
 export class ImageHttpService extends HttpServiceBase {
+
+  // constructor(private http: HttpClient) {}
+      getByApartmentId(id: number): Observable<string[]> {
+        return this.http.get<string[]>(`${environment.apiBase}/api/images/by-apartment/${id}`);
+      }
   
   private get _serverUrl(): string {
     return `${this.config.ips.servicePath}/api/images`;
@@ -66,6 +77,10 @@ export class ImageHttpService extends HttpServiceBase {
             params: { id },
           }));
     }
+
+    
+    
+
    }
 
  

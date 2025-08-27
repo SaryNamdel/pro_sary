@@ -73,19 +73,6 @@ img {
     color: rgb(48, 40, 40);
 }
 
-.rectangle-container {
-    display: flex;
-    align-items: center;
-    background-color: white;
-    box-shadow: 4px 8px 18px rgba(31, 42, 92, 0.1);
-    padding: 20px;
-    border-radius: 5px;
-    margin: 15px;
-    width: 35vw;
-    height: 23vh;
-    border: 1px #c3b9b9 solid
-}
-
 
 .rectangle-content {
     flex: 1;
@@ -94,11 +81,7 @@ img {
     color: #0c0a0a;
 }
 
-.rectangle-image {
-    width: 10vw;
-    height: 15vh;
-    margin-left: 20px;
-}
+
 
 .container {
     display: flex;
@@ -180,11 +163,14 @@ img {
 }
 
 
-.rectangle-image {
-    width: 10vw;
-    height: 15vh;
-    margin-left: 20px;
-}
+// .rectangle-image {
+//     width: 180px;     /* רוחב אחיד */
+//     height: 120px;    /* גובה אחיד */
+//     border-radius: 6px;
+//     object-fit: cover; /* חותך ושומר פרופורציות יפות */
+//     display: block;
+//   }
+  
 
 .button-toolbar {
     display: flex;
@@ -580,3 +566,102 @@ ng-valid ng-dirty ng-touched{
     max-width: none; 
     outline: 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+.rectangle-container {
+    align-items: center;
+    background-color: white;
+    box-shadow: 4px 8px 18px rgba(31, 42, 92, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+    margin: 15px;
+    width: 40vw;
+    height: 35vh;
+    border: 1px #c3b9b9 solid;
+    display: flex;
+    flex-direction: row; /* טקסט בצד ימין, תמונות בצד שמאל */
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+  }
+  
+  .rectangle-content {
+    flex: 1;
+    padding-right: 15px; /* רווח מהתמונות */
+  }
+  
+//   .images {
+//     display: flex;
+//     flex-direction: column; /* תמונות אחת מתחת לשנייה */
+//     gap: 10px; /* רווח בין התמונות */
+//   }
+  
+
+
+  .images {
+    display: flex;
+    flex-direction: column; /* תמונות אחת מתחת לשנייה */
+    gap: 10px;              /* רווח בין התמונות */
+  }
+  
+  .rectangle-image {
+    width: 10vw;       /* רוחב אחיד */
+    height: 15vh;      /* גובה אחיד */
+    border-radius: 8px;
+    object-fit: cover;  /* חותך יפה את התמונה */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  
+//   .rectangle-image:hover {
+//     transform: scale(1.1); /* מגדיל את התמונה */
+//     box-shadow: 0 6px 12px rgba(0,0,0,0.3); /* צל עמוק יותר */
+//   }
+
+
+
+.images {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .image-wrapper {
+    width: 180px;
+    height: 120px;
+    border-radius: 8px;
+    overflow: hidden; /* חותך כל מה שיוצא מהמסגרת */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  }
+  
+  .rectangle-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease; /* מעבר חלק */
+  }
+  
+  .image-wrapper:hover .rectangle-image {
+    transform: scale(1.4); /* התוכן מתקרב פנימה */
+  }
+
+
+
+
+
+
+
+  
+  
+  

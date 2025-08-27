@@ -1,5 +1,3 @@
-
-
 <div class="button-toolbar" style="text-align: left;">
     <hr class="top-line">
     <div class="button-group">
@@ -17,7 +15,7 @@
             <img [src]="img_navbar[0]" alt="Image" class="imgFilter" />
         </button>
         <input type="text" class="city-input btn" placeholder="אזור,עיר שכונה או רחוב" [(ngModel)]="city"
-            (input)="saveCity()" style="width: 12vw;"/>
+            (input)="saveCity()" style="width: 12vw;" />
     </div>
     <hr class="bottom-line">
 </div>
@@ -70,7 +68,7 @@
         <div class="dialog-item" *ngFor="let item of items; let i = index" (click)="selectItem(item)"
             [ngClass]="{'select': selectFilter}">
             {{ item }}
-            <img [src]="img[i]" alt="Image" class="imgFilter" />
+            <img [src]="image[i]" alt="Image" class="imgFilter" />
             <!-- <img [src]="pathImg('soragim')"/> -->
             <!-- <span class="glyphicon glyphicon-film"></span> -->
         </div>
@@ -89,7 +87,7 @@
     <div>
         <div class="title">מאגר הדירות</div>
         <div class="left-column" (click)="openDialogEnd()">
-            @for(a of apartments;track a){
+            @for(a of apartments_data;track a){
             <!-- <button (click)="goToComponent('/end')">Login</button> -->
             <div class="rectangle-container">
                 <div class="rectangle-content" (mouseenter)="showButton = true" (mouseleave)="showButton = false">
@@ -122,27 +120,31 @@
                         @if(a.protected_space){
                         <span class="description" [innerText]="'ממד'"></span>
                         }
-                        @if(a.air_conditioning){
+                        @if(a.mangal){
                         <span class="description" [innerText]="'מנגל'"></span>
                         }
                     </div>
                     <div class="price">
-                        <span [innerText]="a.cost | currency: 'ILS'"></span>
+                        <span [innerText]="a.priceToBed | currency: 'ILS'"></span>
                     </div>
-                    <button *ngIf="showButton" class="btnForRent"  (click)="goToComponent('/end')">For Rent</button>
+                    <button *ngIf="showButton" class="btnForRent" (click)="goToComponent('/end')">For Rent</button>
 
                 </div>
-                <!-- <span *ngFor="let img of a.images;let i=index">
-                    <img [src]="img" alt="Image" class="rectangle-image" />
-                </span> -->
-                <span *ngFor="let img of a.images; let i = index">
-                    <img [src]="imageSrc(img)" alt="Image" class="rectangle-image" />
-                  </span>
+             
+                <div class="images">
+                    <div class="image-wrapper" *ngFor="let img of a.images">
+                        <img [src]="'assets/images/apartment/' + img" class="rectangle-image" />
+                    </div>
+                </div>
+
+                  
+
+
+
             </div>
             }
         </div>
 
     </div>
 
-
-  
+   

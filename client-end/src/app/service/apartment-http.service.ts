@@ -76,5 +76,12 @@ constructor(http: HttpClient, config: ConfigurationService) {
       params: { id },
     }));
   }
+
+
+  getImagesByApartment(apartmentId: number): Observable<string[]> {
+    return this.http.get<string[]>(`${this.config.ips.servicePath}/api/images/${apartmentId}`);
+  }
+  
 }
+
 

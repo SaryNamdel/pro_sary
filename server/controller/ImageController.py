@@ -1,5 +1,10 @@
+
+
 from flask import request, jsonify, Blueprint
+
+from config import Session
 from dto.ImagesDTO import ImagesDTO
+from models.Images import Images
 from repository.ImagesRepository import ImagesRepository
 from service.ImagesService import ImagesService
 
@@ -16,16 +21,11 @@ def add_images():
     return jsonify({'message': 'Images added'}), 201
 
 
+
 @images_blueprint.route('', methods=['GET'])
 def get_images():
     images = service.get_all_images()
     return jsonify([{'imgId': i.imgId, 'imgName': i.imgName} for i in images])
-
-
-@images_blueprint.route('/<int:image_id>', methods=['GET'])
-def get_images_by_id(images_id):
-    images = service.get_image_by_id(images_id)
-    return jsonify({'imgId': images.imgId, 'imgName': images.imgName, 'apartmentId': images.apartmentId})
 
 
 @images_blueprint.route('/<int:images_id>', methods=['PUT'])
@@ -39,3 +39,17 @@ def update_images(images_id):
 def delete_images(images_id):
     service.delete_image(images_id)
     return jsonify({'message': 'Images deleted'})
+
+
+@images_blueprint.route('/<int:apartmentId>', methods=["GET"])
+def images_by_apartment(apartmentId):
+    session = Session()
+    try:
+        # מביא את כל התמונות של דירה לפי apartmentId
+        images = session.query(Images).filter(Images.apartmentId == apartmentId).all()
+
+        # נחזיר JSON כמו: ["home1.jpg", "home2.jpg"]
+        return jsonify([img.imgName for img in images])
+    finally:
+        session.close()
+

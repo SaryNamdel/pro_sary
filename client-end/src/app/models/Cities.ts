@@ -4,10 +4,10 @@ export class Cities {
     areaId: string = ''
     cityName: string = ''
 
-    constructor(cityId: number, areaId: string, cityName: string,) {
-        this.cityId = cityId
-        this.cityName = cityName
-        this.areaId = areaId
-    }
+    // constructor(cityId: number, areaId: string, cityName: string,) {
+    //     this.cityId = cityId
+    //     this.cityName = cityName
+    //     this.areaId = areaId
+    // }
 
 }
