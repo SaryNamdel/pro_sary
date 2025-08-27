@@ -24,7 +24,11 @@ if str(cfg.get("auth", "")).lower() == "windows":
         f"DRIVER={{{cfg['driver']}}};"
         f"SERVER={cfg['server']};"
         f"DATABASE={cfg['database']};"
-        "Trusted_Connection=yes;"
+        f"UID={cfg['user']};"
+        f"PWD={cfg['password']};"
+        "Encrypt=yes;"
+        "TrustServerCertificate=no;"
+        "Connection Timeout=30;"
     )
 else:
     odbc_str = (
@@ -39,7 +43,7 @@ else:
 odbc_connect = quote_plus(odbc_str)
 
 engine = create_engine(
-    f"mssql+pyodbc:///?odbc_connect={odbc_connect}",
+    f"mssql+pyodbc:///?odbc_connect={quote_plus(odbc_str)}",
     pool_pre_ping=True,
     future=True,
 )
@@ -50,8 +54,18 @@ try:
         v = conn.execute(text("SELECT @@SERVERNAME AS srv, DB_NAME() AS db")).mappings().first()
         print("CONNECTED →", v)
         # בדיקת טבלה לדוגמה (שני לשם קיים אצלך)
-        # cnt = conn.execute(text("SELECT COUNT(*) AS c FROM Customers")).scalar_one()
-        # print("Customers:", cnt)
+        cnt = conn.execute(text("SELECT COUNT(*) AS c FROM Customers")).scalar_one()
+        print("Customers:", cnt)
 except Exception as e:
     print("CONNECT FAILED:")
     traceback.print_exc()
+
+
+
+from urllib.parse import quote_plus
+from sqlalchemy import create_engine
+
+# נניח שטענת את cfg מה-JSON כמו קודם
+
+
+

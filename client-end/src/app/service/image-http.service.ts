@@ -15,7 +15,7 @@ export class ImageHttpService extends HttpServiceBase {
   getImage$(): Observable<Image[]> {
      return this.get$(new HttpRequestModel({
        url: this._serverUrl,
-       action: 'getImage',
+       action: '',
      }));
    };
  

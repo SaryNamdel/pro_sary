@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 from controller.ApartmentController import apartment_blueprint, get_apartments
 from controller.AreaController import area_blueprint
 from controller.CitiesController import cities_blueprint
@@ -12,9 +13,17 @@ from error_handlers.error_handlers import register_error_handlers
 
 app = Flask(__name__)
 
+
+# לאפשר CORS לכל ראוט תחת /api/* מאנגולר (4200)
+CORS(app,
+     resources={r"/api/*": {"origins": ["http://localhost:4200"]}},
+     supports_credentials=False)  # שנה ל-True רק אם עובדים עם קוקים/סשן
+
+
 @app.get("/")
 def root():
     print("Hello World")
+    get_apartments()
     return {"message": "apartments API is running"}
 #CORS(app)
 
@@ -31,6 +40,6 @@ app.register_blueprint(renterAndApartment_blueprint, url_prefix='/api/rentersAnd
 register_error_handlers(app)
 
 if __name__ == "__main__":
-    root()
+    app.run(debug=True, port=5000)
 
 

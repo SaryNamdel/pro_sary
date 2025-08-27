@@ -13,7 +13,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { RenterService } from './components/services/renter.service';
 import { RenterStatus } from './statusEnum';
-import { TryHttpService } from './service/try-http.service';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -44,7 +43,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 export class AppComponent implements OnInit {
 
-  constructor(private tryHttpService: TryHttpService) {}
+  // constructor(private tryHttpService: TryHttpService) {}
 
   renterService = inject(RenterService);
   sharedVariable: string = '';

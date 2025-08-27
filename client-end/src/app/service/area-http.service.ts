@@ -8,7 +8,7 @@ import { Area } from '../models/Area';
 export class AreaHttpService extends HttpServiceBase {
   
   private get _serverUrl(): string {
-    return `${this.config.ips.servicePath}/api/areas/`;
+    return `${this.config.ips.servicePath}/api/areas`;
     // return `${this.config.ips.servicePath}/Area`
   }
 

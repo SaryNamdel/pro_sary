@@ -1,8 +1,4 @@
-<ul *ngIf="areas$ | async as areas">
-    <li *ngFor="let area of areas">
-      {{ area.areaName }}
-    </li>
-  </ul>
+
 
 <div class="button-toolbar" style="text-align: left;">
     <hr class="top-line">
@@ -136,11 +132,17 @@
                     <button *ngIf="showButton" class="btnForRent"  (click)="goToComponent('/end')">For Rent</button>
 
                 </div>
-                <span *ngFor="let img of a.images;let i=index">
+                <!-- <span *ngFor="let img of a.images;let i=index">
                     <img [src]="img" alt="Image" class="rectangle-image" />
-                </span>
+                </span> -->
+                <span *ngFor="let img of a.images; let i = index">
+                    <img [src]="imageSrc(img)" alt="Image" class="rectangle-image" />
+                  </span>
             </div>
             }
         </div>
 
     </div>
+
+
+  

@@ -9,8 +9,6 @@ import { ConfigurationService } from './configuration.service';
 @Injectable({ providedIn: 'root' })
 
 
-
-
 export class ApartmentHttpService extends HttpServiceBase {
 
   //from ai
@@ -27,7 +25,7 @@ constructor(http: HttpClient, config: ConfigurationService) {
   getApartments$(): Observable<Apartment[]> {
     return this.get$(new HttpRequestModel({
       url: this._serverUrl,
-      action: 'getApartments',
+      action: '',
     }));
   };
 

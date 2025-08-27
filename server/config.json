@@ -2,8 +2,8 @@
   "db": {
     "user": "blumi_admin",
     "password": "sql123456789%21",
-    "server": "SystemApartments.database.windows.net",
+    "server": "taasukatiserver.database.windows.net,1433",
     "database": "SystemApartments",
-    "driver": "driver=ODBC Driver 17 for SQL Server"
+    "driver": "ODBC Driver 17 for SQL Server"
   }
 }
