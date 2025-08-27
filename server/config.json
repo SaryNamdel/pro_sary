@@ -1,0 +1,9 @@
+{
+  "db": {
+    "user": "blumi_admin",
+    "password": "sql123456789%21",
+    "server": "SystemApartments.database.windows.net",
+    "database": "SystemApartments",
+    "driver": "driver=ODBC Driver 17 for SQL Server"
+  }
+}

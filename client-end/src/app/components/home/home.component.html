@@ -6,13 +6,13 @@
   <div class="rect">
     <div class="one-box" style="border: 5px rgb(162, 109, 11) solid;">
       <img [src]="pathImg('tzimer')" />
-      <div class="divColor1">צימרים וסוויטות</div>
-      מעל 670 צימרים וסוויטות מרווחות ומשכרות נוף עוצר נשימה
+      <div class="divColor1" [innerText]="tzimer"></div>
+      <div class="content-div" [innerText]="contentTzimer"></div>
     </div>
     <div class="one-box" style="border: 5px rgb(74, 15, 114) solid;">
       <img [src]="pathImg('pool')" />
-      <div class="divColor2">בריכות</div>
-      בריכות
+      <div class="divColor2" [innerText]="pool"></div>
+      <div class="content-div" [innerText]="contentPool"></div>
     </div>
     <div class="one-box" style="border: 5px rgb(22, 114, 14) solid;">
       <img [src]="pathImg('attraction')" />

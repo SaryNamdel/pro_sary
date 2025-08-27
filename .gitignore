@@ -7,14 +7,15 @@ client-end/.vscode/
 client-end/package-lock.json
 
 # ---- Python ----
-server-end/__pycache__/
-server-end/*.py[cod]
-server-end/.venv/
-server-end/env/
-server-end/.env
-server-end/.pytest_cache/
-server-end/.mypy_cache/
-server-end/.vscode/
+server/__pycache__/
+server/*.py[cod]
+server/.venv/
+server/env/
+server/.env
+server/.pytest_cache/
+server/.mypy_cache/
+server/.vscode/
+server/config.json
 
 # ---- System files ----
 *.log

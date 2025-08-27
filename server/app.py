@@ -11,7 +11,12 @@ from error_handlers.error_handlers import register_error_handlers
 
 
 app = Flask(__name__)
-# CORS(app)
+
+@app.get("/")
+def root():
+    print("Hello World")
+    return {"message": "apartments API is running"}
+#CORS(app)
 
 
 app.register_blueprint(apartment_blueprint, url_prefix='/api/apartments')
@@ -24,5 +29,8 @@ app.register_blueprint(renters_blueprint, url_prefix='/api/renters')  #
 app.register_blueprint(renterAndApartment_blueprint, url_prefix='/api/rentersAndApartment')  #
 
 register_error_handlers(app)
+
+if __name__ == "__main__":
+    root()
 
 

@@ -1,6 +1,5 @@
 import re
 import json
-from distutils import log
 from app import app
 
 from controller.ApartmentController import get_apartments

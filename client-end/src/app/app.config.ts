@@ -11,27 +11,28 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withFetch()),
+    provideHttpClient()
+  //   provideHttpClient(withFetch()),
 
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initConfigValues,
-      deps: [ConfigurationService],
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initChat,
-      deps: [ChatService],
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initRenter,
-      deps: [RenterService],
-      multi: true
-    }
-  ]
+  //   {
+  //     provide: APP_INITIALIZER,
+  //     useFactory: initConfigValues,
+  //     deps: [ConfigurationService],
+  //     multi: true
+  //   },
+  //   {
+  //     provide: APP_INITIALIZER,
+  //     useFactory: initChat,
+  //     deps: [ChatService],
+  //     multi: true
+  //   },
+  //   {
+  //     provide: APP_INITIALIZER,
+  //     useFactory: initRenter,
+  //     deps: [RenterService],
+  //     multi: true
+  //   }
+    ]
 };
 
 

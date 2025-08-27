@@ -11,6 +11,14 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
 })
 
 export class HomeComponent {
+  tzimer = 'צימרים'
+  contentTzimer  ='צימרים וקוטגים מפוארים ומרווחים, במיקומים שקטים ופסטורליים נגישים לכל אחד, בגדלים שונים, בסטייל שלא תמצאו בשום מקום'
+  pool = 'בריכות'
+  contentPool = 'מגוון בריכות גדולות ומרווחות, בריכות לילדים עם אטרקציות,מגלישות,תותחי מים ועוד. בריכות חצי אולימפיות, בריכות גקוזי בגדלים שונים ועוד הרבה...'
+  vilag = ''
+  contentVilag = ''
+  attraction = ''
+  contentAttraction = ''
   router = inject(Router); 
 
   goToComponent(path:string) {
