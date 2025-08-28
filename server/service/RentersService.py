@@ -26,6 +26,7 @@ class RentersService:
             renters.phone = new_data.phone
             renters.email = new_data.email
             renters.pwd = new_data.pwd
+            renters.username = new_data.username
             self.session.commit()
         return renters
 
@@ -36,5 +37,5 @@ class RentersService:
             self.session.commit()
         return renters
 
-    def exists_by_title(self, lastName):
+    def exists_by_lastName(self, lastName):
         return self.session.query(Renters).filter_by(lastName=lastName).first() is not None

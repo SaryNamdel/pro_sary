@@ -25,7 +25,7 @@ if str(cfg.get("auth", "")).lower() == "windows":
         f"SERVER={cfg['server']};"
         f"DATABASE={cfg['database']};"
         f"UID={cfg['user']};"
-        f"PWD={cfg['password']};"
+        f"PWD={cfg['pwd']};"
         "Encrypt=yes;"
         "TrustServerCertificate=no;"
         "Connection Timeout=30;"
@@ -36,7 +36,7 @@ else:
         f"SERVER={cfg['server']};"
         f"DATABASE={cfg['database']};"
         f"UID={cfg['user']};"
-        f"PWD={cfg['password']};"
+        f"PWD={cfg['pwd']};"
         "TrustServerCertificate=yes;"
     )
 

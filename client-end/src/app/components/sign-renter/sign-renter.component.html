@@ -18,19 +18,20 @@
         <label for="username">:שם משתמש</label>
         <input type="text" id="username" class="formControlLogin" formControlName="username" required
           placeholder="הכנס שם משכיר">
-        <span class="errorText" *ngIf="formGroup1.get('username')?.invalid && mouseoverLogin" [innerText]="'!שדה חובה'">
+        <span class="errorText" *ngIf="formGroup1.get('username')?.hasError('usernameTaken') && formGroup1.get('username')?.touched && mouseoverLogin" [innerText]="'שם המשתמש כבר תפוס'">
         </span>
       </div>
 
+
       <div class="input-container">
-        <label for="password">:סיסמא</label>
-        <input type="password" class="formControlLogin" formControlName="password" required placeholder="הכנס סיסמא">
-        <span class="errorText" *ngIf="formGroup1.get('password')?.invalid && mouseoverLogin" [innerText]="'!שדה חובה'">
+        <label for="pwd">:סיסמא</label>
+        <input type="password" class="formControlLogin" formControlName="pwd" required placeholder="הכנס סיסמא">
+        <span class="errorText" *ngIf="formGroup1.get('pwd')?.invalid && mouseoverLogin" [innerText]="'!שדה חובה'">
         </span>
       </div>
 
       <div *ngIf="!showDetails" (mouseenter)="mouseoverLogin=true" (mouseleave)="mouseoverLogin=false">
-        <button [disabled]="formGroup1.invalid" (click)="login()">כניסה למערכת</button>
+        <button [disabled]="formGroup1.pending || formGroup1.invalid" (click)="login()">כניסה למערכת</button>
         <span [innerText]="messege"></span>
       </div>
 

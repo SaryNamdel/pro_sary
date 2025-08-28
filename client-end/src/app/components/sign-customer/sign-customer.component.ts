@@ -37,7 +37,7 @@ export class SignCustomerComponent {
   ngOnInit(): void {
     this.formGroup = this.fb.group({
       username: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      pwd: ['', [Validators.required]],
       status: [''],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
@@ -47,15 +47,15 @@ export class SignCustomerComponent {
   }
 
   login(): void {
-    const { username, password } = this.formGroup.value;
-    localStorage.setItem('login', JSON.stringify({ username, password }))
-    if (username == 'שוכר קיים' && password == 123) {
+    const { username, pwd } = this.formGroup.value;
+    localStorage.setItem('login', JSON.stringify({ username, pwd }))
+    if (username == 'שוכר קיים' && pwd == 123) {
       this.dialogRef.close();
       this.status = 'סטטוס שוכר';
       this.router.navigate(['/customer'])
     }
     else
-      if (username == 'שוכר חדש' && password == 456) {
+      if (username == 'שוכר חדש' && pwd == 456) {
         this.newRent = true;
         setTimeout(() => {
           this.dialogRef.close()

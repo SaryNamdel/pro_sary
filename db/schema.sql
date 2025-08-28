@@ -28,7 +28,8 @@ CREATE TABLE Customers
 	firstName nvarchar(20) not null,
 	phone nvarchar(20) ,
 	email nvarchar(50) not null,
-	pwd nvarchar(50)
+	pwd nvarchar(50),
+	username NVARCHAR(100)
 )
 GO
 
@@ -75,7 +76,8 @@ create TABLE Renters
 	firstName nvarchar(20)not null,
 	phone nvarchar(20),
 	email nvarchar(50)not null,
-	pwd nvarchar(50)
+	pwd nvarchar(50),
+	username NVARCHAR(100)
 )
 GO
 
@@ -100,5 +102,7 @@ CREATE TABLE RentersAndApartment
 	dateExit date not null
 )
 GO
+
+
 
 

@@ -1,5 +1,5 @@
 class RentersDTO:
-    def __init__(self, rentId, apartmentId, lastName, firstName, phone, email, pwd):
+    def __init__(self, rentId, apartmentId, lastName, firstName, phone, email, pwd, username):
         self.rentId = rentId
         self.apartmentId = apartmentId
         self.lastName = lastName
@@ -7,4 +7,5 @@ class RentersDTO:
         self.phone = phone
         self.email = email
         self.pwd = pwd
+        self.username = username
 

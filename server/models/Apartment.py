@@ -1,13 +1,10 @@
 from sqlalchemy import Column, Integer, String, Boolean, Float, ForeignKey
-from sqlalchemy.orm import relationship
-
 from config import Base
 
 
 class Apartment(Base):
     __tablename__ = "Apartments"
-
-    apartmentId = Column(Integer, primary_key=True)
+    apartmentId = Column(Integer, primary_key=True, autoincrement=True)
     #  cityId = Column(Integer, ForeignKey("Cities.cityId"))
     cityId = Column(Integer)
     park = Column(Boolean)

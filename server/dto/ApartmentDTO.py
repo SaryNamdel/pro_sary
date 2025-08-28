@@ -1,8 +1,8 @@
-from pydantic import BaseModel
+
 from typing import Optional
 
 
-class ApartmentDTO(BaseModel):
+class ApartmentDTO:
     apartmentId: int
     cityId: int
     park: Optional[bool]

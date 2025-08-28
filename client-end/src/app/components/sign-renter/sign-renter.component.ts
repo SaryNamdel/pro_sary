@@ -5,6 +5,8 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RenterService } from '../services/renter.service';
 import { RenterStatus } from '../../statusEnum';
+import { RentersHttpService } from '../../service/renters-http.service';
+import { usernameAvailableValidator } from '../../validators/username-available.validator';
 
 
 @Component({
@@ -32,6 +34,7 @@ export class SignRenterComponent implements OnInit {
   readonly dialog = inject(MatDialog)
   messege: string = '';
 
+  private renterHttpService = inject(RentersHttpService);
 
 
 
@@ -44,7 +47,7 @@ export class SignRenterComponent implements OnInit {
 
 
 
-  constructor(private fb: FormBuilder, private formBuilder: FormBuilder, private formBuilder2: FormBuilder) {
+  constructor(private fb: FormBuilder, private formBuilder: FormBuilder, private formBuilder2: FormBuilder, private api: RentersHttpService) {
     this.dynamicForm = this.fb.group({
       status: [''],
       fieldSelect: ['']
@@ -59,64 +62,128 @@ export class SignRenterComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup1 = this.formBuilder.group({
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      username: ['', {
+        validators: [Validators.required, Validators.minLength(3)],
+        asyncValidators: [usernameAvailableValidator(this.api)],
+        // updateOn: 'blur' // מפעיל את הבדיקה כשמאבדים פוקוס (מומלץ)
+      }],
+      pwd: ['', [Validators.required, Validators.minLength(3)]],
       status: [''],
       firstName: [''],
       lastName: [''],
       phone: [''],
       email: ['']
     }),
-      this.formGroup2 = this.formBuilder2.group({
-        city: ['', [Validators.required]],
-        description: ['', [Validators.required]],
-        accessibleness: [''],
-        elevator: ['', [Validators.required]],
-        porch: ['', [Validators.required]],
-        air_conditioning: ['', [Validators.required]],
-        parking: ['', [Validators.required]],
-        beds: ['', [Validators.required]],
-        rooms: ['', [Validators.required]]
-      }),
+      // this.formGroup2 = this.formBuilder2.group({
+      //   city: ['', [Validators.required]],
+      //   description: ['', [Validators.required]],
+      //   accessibleness: [''],
+      //   elevator: ['', [Validators.required]],
+      //   porch: ['', [Validators.required]],
+      //   air_conditioning: ['', [Validators.required]],
+      //   parking: ['', [Validators.required]],
+      //   beds: ['', [Validators.required]],
+      //   rooms: ['', [Validators.required]]
+      // }),
       console.log("status in sign renter " + this.status);
 
   }
+ 
+
+
+  // login(): void {
+  //   const { username, pwd } = this.formGroup1.value;
+  //   const selectedStatus = this.dynamicForm.get('fieldSelect')?.value;
+  //   // localStorage.setItem('login', JSON.stringify({ username, pwd }))
+  //   if (selectedStatus === 'existing') {
+  //     if (username === 'משכיר קיים' && pwd === "123") {
+  //       // this.status = 'סטטוס משכיר';
+  //       this.renterService.setStatus(RenterStatus.exist)
+  //       this.status = this.renterService.getStatus()
+  //       this.dialogRef.close();
+  //       this.router.navigate(['/renter'])
+  //     }
+  //     else {
+  //       if (username !== 'משכיר קיים' && pwd === '123')
+  //         this.messege = 'השם משתמש שהוקש שגוי,נא להקיש שנית'
+  //       if (username === 'משכיר קיים' && pwd !== '123')
+  //         this.messege = 'הסיסמא שהוקשה שגויה,נא להקיש שנית'
+  //       if (username !== 'משכיר קיים' && pwd !== '123')
+  //         this.messege = 'השם משתמש והסיסמא שהוקשו שגויים,נא להקיש שנית'
+  //       this.dialogRef.afterClosed().subscribe(() => {
+  //         this.renterService.setStatus(RenterStatus.register);
+  //         this.status = this.renterService.getStatus()
+  //       });
+  //     }
+  //   }
+  //   else {
+  //     //need to save the details in the data
+  //     this.renterService.setStatus(RenterStatus.exist)
+  //     this.newRent = true;
+  //     setTimeout(() => {
+  //       this.dialogRef.close()
+  //     }, 4000);
+  //     this.router.navigate(['/renter'])
+  //   }
+  // }
+
+
+  // component
+
+
+
 
   login(): void {
-    const { username, password } = this.formGroup1.value;
-    const selectedStatus = this.dynamicForm.get('fieldSelect')?.value;
-    // localStorage.setItem('login', JSON.stringify({ username, password }))
-    if (selectedStatus === 'existing') {
-      if (username === 'משכיר קיים' && password === "123") {
-        // this.status = 'סטטוס משכיר';
-        this.renterService.setStatus(RenterStatus.exist)
-        this.status = this.renterService.getStatus()
-        this.dialogRef.close();
-        this.router.navigate(['/renter'])
-      }
-      else {
-        if (username !== 'משכיר קיים' && password === '123')
-          this.messege = 'השם משתמש שהוקש שגוי,נא להקיש שנית'
-        if (username === 'משכיר קיים' && password !== '123')
-          this.messege = 'הסיסמא שהוקשה שגויה,נא להקיש שנית'
-        if (username !== 'משכיר קיים' && password !== '123')
-          this.messege = 'השם משתמש והסיסמא שהוקשו שגויים,נא להקיש שנית'
-        this.dialogRef.afterClosed().subscribe(() => {
-          this.renterService.setStatus(RenterStatus.register);
-          this.status = this.renterService.getStatus()
-        });
-      }
+    const { username, pwd, firstName, phone, lastName, email } = this.formGroup1.value;
+    const selectedStatus = this.dynamicForm.get('fieldSelect')?.value as 'existing' | 'new';
+
+    // ניקוי הודעות קודמות
+    this.messege = '';
+
+    if (!username || !pwd) {
+      this.messege = 'יש למלא שם משתמש וסיסמה';
+      return;
     }
-    else {
-      //need to save the details in the data
-      this.renterService.setStatus(RenterStatus.exist)
-      this.newRent = true;
-      setTimeout(() => {
-        this.dialogRef.close()
-      }, 4000);
-      this.router.navigate(['/renter'])
+
+    if (selectedStatus === 'existing') {
+      // התחברות מול DB
+      this.renterHttpService.login({ username, pwd }).subscribe({
+        next: renter => {
+          // הצלחה
+          this.renterService.setStatus(RenterStatus.exist);
+          this.status = this.renterService.getStatus();
+          // אופציונלי: localStorage.setItem('renter', JSON.stringify(renter));
+          this.dialogRef.close();
+          this.router.navigate(['/renter']);
+        },
+        error: err => {
+          // 401/404/שגיאה לוגית מהשרת
+          const msg = err?.error?.message || 'שם משתמש או סיסמה שגויים';
+          this.messege = msg;
+          // אופציונלי: מעבר אוטומטי למסך הרשמה
+          this.renterService.setStatus(RenterStatus.register);
+          this.status = this.renterService.getStatus();
+        }
+      });
+    } else {
+      // הרשמה – יצירת משכיר חדש ב-DB
+      if (this.formGroup1.invalid) return;
+      const payload = { username, pwd, firstName, phone, status, email, lastName } as any; // הוסיפי שדות נוספים מטופס הרשמה אם יש
+      this.renterHttpService.register(payload).subscribe({
+        next: renter => {
+          this.renterService.setStatus(RenterStatus.exist);
+          this.newRent = true;
+          this.dialogRef.close();
+          this.router.navigate(['/renter']);
+        },
+        error: err => {
+          const msg = err?.error?.message || 'שגיאה בהרשמה';
+          this.messege = msg;
+        }
+      });
     }
   }
+
 
   openDialogAddDetails() {
     this.router.navigate(['/new-renter'])
@@ -125,3 +192,6 @@ export class SignRenterComponent implements OnInit {
   }
 
 }
+
+
+

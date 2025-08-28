@@ -1,5 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
+
+from config import Base, engine
 from controller.ApartmentController import apartment_blueprint, get_apartments
 from controller.AreaController import area_blueprint
 from controller.CitiesController import cities_blueprint
@@ -9,6 +11,7 @@ from controller.ImageController import images_blueprint
 from controller.RentAndApartmentController import renterAndApartment_blueprint
 from controller.RentersController import renters_blueprint
 from error_handlers.error_handlers import register_error_handlers
+import models
 
 
 app = Flask(__name__)
@@ -22,10 +25,12 @@ CORS(app,
 
 @app.get("/")
 def root():
-    print("Hello World")
-    get_apartments()
     return {"message": "apartments API is running"}
 #CORS(app)
+
+
+Base.metadata.create_all(bind=engine)
+
 
 
 app.register_blueprint(apartment_blueprint, url_prefix='/api/apartments')

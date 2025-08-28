@@ -296,14 +296,17 @@ INSERT INTO Customers VALUES (5, N'זינו', N'טל', '0501234037', 'tal37@gmail.com'
 INSERT INTO Customers VALUES (19, N'פרץ', N'ליאב', '0501234038', 'liav38@gmail.com', 'liav038')       -- באר שבע
 INSERT INTO Customers VALUES (23, N'סבח', N'אלי', '0501234039', 'eli39@gmail.com', 'eli039')          -- ירושלים
 INSERT INTO Customers VALUES (7, N'דנינו', N'יהונתן', '0501234040', 'yonatan40@gmail.com', 'yonatan040')-- טבריה
-
----------------
-select* from Customers
-delete from Customers
-
 -------------------------
 ALTER TABLE Customers
 ALTER COLUMN firstName NVARCHAR(50);
 
 ALTER TABLE Customers
 ALTER COLUMN lastName NVARCHAR(50);
+
+
+UPDATE Renters
+SET username = 'renter_' + CAST(rentId AS NVARCHAR(10));
+
+UPDATE Customers
+SET username = 'renter_' + CAST(custId AS NVARCHAR(10));
+
