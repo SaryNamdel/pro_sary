@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpServiceBase } from './http-service.base';
 import { HttpRequestModel } from '../models/http-request.model';
 import { Image } from '../models/Image';
-import { environment } from '../../environments/environments';
+import { environment } from '../../environments/environment';
 
 
 

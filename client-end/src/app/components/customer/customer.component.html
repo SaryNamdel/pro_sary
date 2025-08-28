@@ -35,7 +35,7 @@
                         }
                     </div>
                     <div class="price">
-                        <span [innerText]="a.cost | currency: 'ILS'"></span>
+                        <span [innerText]="a.priceToBed | currency: 'ILS'"></span>
                     </div>
                 </div>
                 <span *ngFor="let img of a.images;let i=index">

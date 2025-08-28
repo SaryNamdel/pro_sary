@@ -19,33 +19,66 @@
 
 
 
-
+////////////////////////////////////////////////////////////////////////////////////////////
 // src/main.ts
 
 // אתחול אפליקציית Angular במבנה Standalone
+// import { bootstrapApplication } from '@angular/platform-browser';
+// import { APP_INITIALIZER } from '@angular/core';
+// import { provideHttpClient } from '@angular/common/http';
+
+// import { AppComponent } from './app/app.component';
+// import { ConfigurationService } from './app/service/configuration.service';
+
+// // פונקציית אתחול שרצה לפני עליית האפליקציה
+// export function initAppConfig(configService: ConfigurationService) {
+//   // חשוב: הפונקציה שמוחזרת חייבת להחזיר Promise/Observable או void
+//   return () => configService.initConfiguration('assets/config');
+// }
+
+// // עליית האפליקציה עם ספקים (Providers)
+// bootstrapApplication(AppComponent, {
+//   providers: [
+//     // מספק HttpClient לכל האפליקציה (פותח את הבעיה: No provider for _HttpClient)
+//     provideHttpClient(),
+
+//     // אם ה־ConfigurationService לא מסומן providedIn:'root', נשאיר אותו כ־provider מפורשות:
+//     ConfigurationService,
+
+//     // APP_INITIALIZER מריץ את טעינת הקונפיגורציה לפני ה-bootstrap
+//     {
+//       provide: APP_INITIALIZER,
+//       useFactory: initAppConfig,
+//       deps: [ConfigurationService],
+//       multi: true,
+//     },
+//   ],
+// })
+// .catch((err) => console.error(err));
+
+
+
+// src/main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
 import { APP_INITIALIZER } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';   // ✅ נוסיף ראוטינג
 
 import { AppComponent } from './app/app.component';
 import { ConfigurationService } from './app/service/configuration.service';
+import { routes } from './app/app.routes';   
 
 // פונקציית אתחול שרצה לפני עליית האפליקציה
 export function initAppConfig(configService: ConfigurationService) {
-  // חשוב: הפונקציה שמוחזרת חייבת להחזיר Promise/Observable או void
   return () => configService.initConfiguration('assets/config');
 }
 
-// עליית האפליקציה עם ספקים (Providers)
+// Bootstrap של האפליקציה עם Providers
 bootstrapApplication(AppComponent, {
   providers: [
-    // מספק HttpClient לכל האפליקציה (פותח את הבעיה: No provider for _HttpClient)
     provideHttpClient(),
-
-    // אם ה־ConfigurationService לא מסומן providedIn:'root', נשאיר אותו כ־provider מפורשות:
+    provideRouter(routes),   // ✅ חיבור הראוטים לאפליקציה
     ConfigurationService,
-
-    // APP_INITIALIZER מריץ את טעינת הקונפיגורציה לפני ה-bootstrap
     {
       provide: APP_INITIALIZER,
       useFactory: initAppConfig,
@@ -53,5 +86,4 @@ bootstrapApplication(AppComponent, {
       multi: true,
     },
   ],
-})
-.catch((err) => console.error(err));
+}).catch((err) => console.error(err));

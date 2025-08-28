@@ -1,9 +1,12 @@
 from flask import Blueprint, request, jsonify
 from dto.RentersDTO import RentersDTO
+from models import RentersAndApartment
 from models.Apartment import Apartment
 from models.Renters import Renters
 from repository.RentersRepository import RentersRepository
 from service.RentersService import RentersService
+
+from models.Images import Images
 
 from sqlalchemy.exc import IntegrityError
 from config import Session
@@ -70,11 +73,6 @@ def login_renter():
     data = request.get_json(silent=True) or {}
     username = data.get("username")
     pwd = data.get("pwd")
-
-    print("LOGIN BODY:", data)
-    print("DB USER:", username)
-    print("DB PASS RAW:", pwd)
-
     if not username or not pwd:
         return jsonify({"message": "username/pwd נדרשים"}), 400
 
@@ -177,5 +175,64 @@ def register_renter():
         return jsonify({"error": str(e)}), 500
     finally:
         session.close()
+
+
+
+
+# controller/RentersController.py
+
+
+@renters_blueprint.get("/<int:rent_id>/apartments")
+def apartments_by_renter(rent_id: int):
+    s = Session()
+    try:
+        # מביאים את הדירות המשוייכות למשכיר דרך טבלת הקישור
+        apartments = (
+            s.query(Apartment)
+             .join(RentersAndApartment, RentersAndApartment.apartmentId == Apartment.apartmentId)
+             .filter(RentersAndApartment.rentId == rent_id)
+             .all()
+        )
+
+        # נצרף תמונות לכל דירה
+        result = []
+        for a in apartments:
+            images = (
+                s.query(Images.imgName)
+                 .filter(Images.apartmentId == a.apartmentId)
+                 .all()
+            )
+            img_list = [row.imgName for row in images]
+
+            result.append({
+                "apartmentId": a.apartmentId,
+                "address": a.address,
+                "cityId": a.cityId,
+                "numRooms": a.numRooms,
+                "numBeds": a.numBeds,
+                "numFloor": a.numFloor,
+                "park": a.park,
+                "elevator": a.elevator,
+                "porch": a.porch,
+                "mangal": a.mangal,
+                "accessibleness": a.accessibleness,
+                "selfDescription": a.selfDescription,
+                "lan": a.lan,
+                "lat": a.lat,
+                "protected_space": a.protected_space,
+                "trampoline": a.trampoline,
+                "hammock": a.hammock,
+                "woodenBench": a.woodenBench,
+                "SittingArea": a.SittingArea,
+                "isPool": a.isPool,
+                "priceToBed": a.priceToBed,
+                "images": img_list,  # ← כאן התמונות
+            })
+
+        return jsonify(result), 200
+
+    finally:
+        s.close()
+
 
 

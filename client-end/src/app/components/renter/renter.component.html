@@ -1,4 +1,4 @@
-<br><br><br>
+<!-- <br><br><br>
 
 <div>
     <div class="title">סטטוס הדירות שלך</div>
@@ -54,7 +54,7 @@
                         }
                     </div>
                     <div class="price">
-                        <span [innerText]="a.cost | currency: 'ILS'"></span>
+                        <span [innerText]="a.priceToBed | currency: 'ILS'"></span>
                     </div>
                 </div>
                 <span *ngFor="let img of a.images;let i=index">
@@ -66,4 +66,30 @@
         </div>
 
     </div>
-</div>
+</div> -->
+
+
+
+
+
+
+
+
+    <h2>הדירות שלי</h2>
+    <ng-container *ngIf="apartments?.length; else empty">
+      <div class="apartment" *ngFor="let a of apartments">
+        <div class="meta">
+          <div>{{ a.address }}</div>
+          <div>חדרים: {{ a.numRooms }} | מיטות: {{ a.numBeds }}</div>
+        </div>
+        <div class="images">
+          <img *ngFor="let img of a.images | slice:0:2"
+               [src]="'assets/images/apartment/' + img"
+               class="thumb" />
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #empty>
+      <div>אין דירות להצגה.</div>
+    </ng-template>
+

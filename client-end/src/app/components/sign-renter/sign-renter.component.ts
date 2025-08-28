@@ -173,6 +173,7 @@ export class SignRenterComponent implements OnInit {
         next: renter => {
           this.renterService.setStatus(RenterStatus.exist);
           this.newRent = true;
+          this.renterHttpService.saveAuth(renter); 
           this.dialogRef.close();
           this.router.navigate(['/renter']);
         },
