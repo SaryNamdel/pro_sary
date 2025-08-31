@@ -4,6 +4,7 @@ from flask_cors import CORS
 from config import Base, engine
 from controller.ApartmentController import apartment_blueprint, get_apartments
 from controller.AreaController import area_blueprint
+from controller.BotController import bot_blueprint
 from controller.CitiesController import cities_blueprint
 from controller.CustomerAndApartmentController import customerAndApartment_blueprint
 from controller.CustomerController import customer_blueprint
@@ -23,13 +24,12 @@ CORS(app,
      supports_credentials=False)  # שנה ל-True רק אם עובדים עם קוקים/סשן
 
 
+
 @app.get("/")
 def root():
     return {"message": "apartments API is running"}
 #CORS(app)
 
-
-Base.metadata.create_all(bind=engine)
 
 
 
@@ -41,10 +41,14 @@ app.register_blueprint(cities_blueprint, url_prefix='/api/cities')  #
 app.register_blueprint(customerAndApartment_blueprint, url_prefix='/api/customerAndApartments')  #
 app.register_blueprint(renters_blueprint, url_prefix='/api/renters')  #
 app.register_blueprint(renterAndApartment_blueprint, url_prefix='/api/rentersAndApartment')  #
+app.register_blueprint(bot_blueprint, url_prefix="/api/bot")
 
 register_error_handlers(app)
 
+
 if __name__ == "__main__":
+    try:
+        Base.metadata.create_all(bind=engine)
+    except Exception as e:
+        print("DB init failed:", e)
     app.run(debug=True, port=5000)
-
-
