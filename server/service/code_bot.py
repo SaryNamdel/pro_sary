@@ -327,6 +327,8 @@ class UserSession:
          self.log = log
          self.parser = QueryParser(self.log)
          self.apartments = self.load_apartments()
+         print(type(self.apartments))  # צריך להיות list
+         print(type(self.apartments[0]))  # צריך להיות dict
          print(self.apartments)
 
 
@@ -395,7 +397,8 @@ class UserSession:
      #     return json.loads(response.get_data())
 
      def load_apartments(self):
-         return get_apartments()  # מחזיר list[dict] בלי Flask
+         raw = get_apartments()  # כנראה מחזיר מחרוזת JSON
+         return json.loads(raw)
 
 
      def find_matching_apartment(self):
@@ -411,7 +414,10 @@ class UserSession:
                  elif key == "yard_features" and isinstance(value, bool) != True:
                      if not all(item in apt.get("yard_features", []) for item in value):
                          match = False
-                 if type(value) in (int, float) and type(apt[key]) in (int, float):
+                 if type(value) in (int, float) and key in apt and type(apt[key]) in (int, float):
+
+                    #if type(value) in (int, float) and type(apt[key]) in (int, float):
+
                      # השוואת מספרים – כולל גבול עליון (למשל מחיר עד X)
                      if key == "price":
                          if apt[key] > value:
@@ -425,12 +431,18 @@ class UserSession:
                      if (value == True or value == False) and (value == True and apt[key] == False):
                          match = False
                          break
-                     if value != True and value != False and apt[key] != value and value != [] and isinstance(value,
-                                                                                                              list) != True:
-                         match = False
-                         break
+                     if value not in [True, False, []] and not isinstance(value, list):
+                         if not isinstance(apt, dict) or key not in apt or apt[key] != value:
+                             match = False
+                             break
              if match:
                  matching.append(apt)
+         print(matching)
+         return {
+             "message": f"מצאתי {len(matching)} דירות המתאימות לך!",
+             "apartments": matching,
+         }
+
          return matching
 
 
@@ -456,19 +468,19 @@ class UserSession:
 #             print(results)
 
 
-if __name__ == "__main__":
-   log = ConversationLog()
-   session = UserSession(log)
-   response = 'שלום לך! אני בוט הדירות יחד נמצא את הדירה המושלמת בתבל!!!'
-   print(response)
-   isFind = False
-   while not isFind:
-       user_input = input("משתמש: ")
-       log.add_entry(response, user_input)
-       response = session.process_input(user_input)
-       print("בוט:", response)
-       if response.startswith("מעולה"):
-           isFind = True
-           results = session.find_matching_apartment()
-           print(f' מצאתי {len(results)} דירות המתאימות לך!!!')
-           print(results)
+#if __name__ == "__main__":
+#   log = ConversationLog()
+#   session = UserSession(log)
+#   response = 'שלום לך! אני בוט הדירות יחד נמצא את הדירה המושלמת בתבל!!!'
+#   print(response)
+#   isFind = False
+#   while not isFind:
+#       user_input = input("משתמש: ")
+#       log.add_entry(response, user_input)
+#       response = session.process_input(user_input)
+#       print("בוט:", response)
+#       if response.startswith("מעולה"):
+#           isFind = True
+#           results = session.find_matching_apartment()
+#           print(f' מצאתי {len(results)} דירות המתאימות לך!!!')
+#           print(results)

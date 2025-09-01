@@ -1,3 +1,5 @@
+import json
+
 from flask import request, jsonify, Blueprint
 
 from config import Session
@@ -55,7 +57,8 @@ def get_apartments_data():
 
 @apartment_blueprint.route('', methods=['GET'])
 def get_apartments():
-    return jsonify(get_apartments_data())
+    # return jsonify(get_apartments_data())
+    return json.dumps(get_apartments_data(), ensure_ascii=False)
 
 
 @apartment_blueprint.route('/<int:apartment_id>', methods=['GET'])
@@ -98,3 +101,28 @@ def update_apartment(apartment_id):
 def delete_apartment(apartment_id):
     service.delete_apartment(apartment_id)
     return jsonify({'message': 'apartment deleted'})
+
+
+##################
+# from service.apartmentService import ApartmentService
+# נניח שיש repo תואם עם מתודות לפי ההערות בקוד השירות
+# from repo.apartment_repo import ApartmentRepo   # דוגמא; החליפי לשם האמיתי
+
+apartment_service = ApartmentService(ApartmentRepository())
+@apartment_blueprint.route("/api/apartments", methods=["GET"])
+def list_apartments():
+    data = apartment_service.get_apartments()  # list[dict]
+    return jsonify(data), 200
+
+@apartment_blueprint.route("/api/apartments", methods=["POST"])
+def create_apartment():
+    payload = request.get_json(force=True, silent=False) or {}
+    try:
+        created = apartment_service.add_apartment(payload)  # מחזיר ORM/Entity
+        # החזרה כ-dict יציב ל-JSON
+        out = apartment_service._to_dict(created)
+        return jsonify(out), 201
+    except Exception as e:
+        # לוג עזר
+        print("create_apartment error:", e)
+        return jsonify({"error": "Internal Server Error", "description": str(e)}), 500

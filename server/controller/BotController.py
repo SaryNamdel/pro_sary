@@ -79,3 +79,37 @@ def reset_session(user_id: str):
     if user_id in user_sessions:
         del user_sessions[user_id]
     return jsonify({"message": f"session for '{user_id}' reset"})
+
+
+###########################
+# server/controller/BotController.py
+from flask import Blueprint, request, jsonify
+from service.code_bot import ConversationLog, UserSession  # נתיב הייבוא בהתאם לפרויקט
+
+bot_bp = Blueprint("bot", __name__)
+
+# מומלץ: Session/State בהתאם לאפליקציה שלך. כאן – מופע פר שיחה (פשוט לדוגמה).
+_log = ConversationLog()
+_session = UserSession(_log)
+
+@bot_bp.route("/api/bot/message", methods=["POST"])
+def bot_message():
+    try:
+        payload = request.get_json(force=True, silent=False) or {}
+        text = payload.get("text", "").strip()
+
+        # מעבד את הקלט – מחזיר טקסט המשך שאלות או "מעולה!..."
+        reply_text = _session.process_input(text)
+
+        # אם המשתמש ביקש לסיים/להציג – נחזיר את כל הדירות המתאימות JSON מלא
+        if reply_text.startswith("מעולה"):
+            result = _session.find_matching_apartment()   # dict: {message, apartments}
+            return jsonify(result), 200
+
+        # אחרת – נחזיר רק את הטקסט
+        return jsonify({"message": reply_text}), 200
+
+    except Exception as e:
+        # לוג עזר
+        print("bot_message error:", e)
+        return jsonify({"message": "אירעה שגיאה", "error": str(e)}), 500
