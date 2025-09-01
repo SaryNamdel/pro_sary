@@ -1,0 +1,10 @@
+<h2>תצוגת דירות מתאימות</h2>
+<pre>{{ apartments | json }}</pre>
+<div *ngFor="let apt of apartments" class="apt-card">
+    <h3>{{ apt.city }} - {{ apt.location }}</h3>
+    <p>מחיר: {{ apt.price }} ש"ח</p>
+    <p>מיטות: {{ apt.beds }}</p>
+    <p>חניה: {{ apt.parking ? 'כן' : 'לא' }}</p>
+    <p>בריכה: {{ apt.pool ? 'כן' : 'לא' }}</p>
+  </div>
+  

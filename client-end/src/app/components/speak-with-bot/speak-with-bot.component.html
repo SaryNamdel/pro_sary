@@ -11,11 +11,15 @@
         <label *ngIf="messages.length == 0" for="nameField" [innerText]="'שלום. אני בוט הדירות שלך
        יחד נמצא את דירת החלומות'">
         </label>
-        <input class="input-field" [(ngModel)]="value" (keyup.enter)="sendMessage()" type="text" placeholder="החלומות שלך...">
+        <input class="input-field" [(ngModel)]="value" (keyup.enter)="sendMessage()" type="text"
+            placeholder="החלומות שלך...">
         <div class="modal-footer">
             <button class="send-button" (click)="sendMessage()">לשלוח</button>
             <button class="send-button" (click)="continue('nav-bar/apartment')">לראות את כל הדירות המתאימות</button>
             <button class="send-button" data-dismiss="modal" (click)="close()">סגירה</button>
+            <button *ngIf="shouldShowApartmentsButton()" (click)="continueToApartments()">
+                לראות את הדירות המתאימות עבורך
+            </button>
         </div>
 
         <!-- <div mat-dialog-actions>

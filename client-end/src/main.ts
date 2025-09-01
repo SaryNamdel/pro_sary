@@ -62,7 +62,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { APP_INITIALIZER } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideRouter } from '@angular/router';   // ✅ נוסיף ראוטינג
+import { RouterModule, provideRouter } from '@angular/router';   // ✅ נוסיף ראוטינג
 
 import { AppComponent } from './app/app.component';
 import { ConfigurationService } from './app/service/configuration.service';
@@ -87,3 +87,4 @@ bootstrapApplication(AppComponent, {
     },
   ],
 }).catch((err) => console.error(err));
+

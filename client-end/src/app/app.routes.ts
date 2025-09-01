@@ -192,5 +192,10 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/calendar/calendar.component').then((m) => m.CalendarComponent)
   },
+  {
+    path: 'suitable-apartments',
+    loadComponent: () =>
+      import('./components/suitable-apartments/suitable-apartments.component').then((m) => m.SuitableApartmentsComponent)
+  }
 ];
 

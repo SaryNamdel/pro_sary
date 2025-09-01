@@ -3,7 +3,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { RenterService } from '../services/renter.service';
+import { RenterService } from '../../service/renter.service';
 import { RenterStatus } from '../../statusEnum';
 import { RentersHttpService } from '../../service/renters-http.service';
 import { usernameAvailableValidator } from '../../validators/username-available.validator';

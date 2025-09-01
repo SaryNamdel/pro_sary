@@ -2,8 +2,8 @@ import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { ChatService } from './components/services/chat.service';
-import { RenterService } from './components/services/renter.service';
+import { ChatService } from './service/chat.service';
+import { RenterService } from './service/renter.service';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ConfigurationService } from './service/configuration.service';
 
@@ -54,7 +54,7 @@ export function initConfigValues(config: ConfigurationService) {
 
 
 export function initChat(chatService: ChatService) {
-  return (() => chatService.getBotMessage(""));
+  return (() => chatService.getBotAnswer(""));
 }
 export function initRenter(renterService: RenterService) {
   return (() => renterService.getStatus());

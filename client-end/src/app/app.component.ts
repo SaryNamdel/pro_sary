@@ -11,7 +11,7 @@ import { SignRenterComponent } from './components/sign-renter/sign-renter.compon
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { RenterService } from './components/services/renter.service';
+import { RenterService } from './service/renter.service';
 import { RenterStatus } from './statusEnum';
 import { HttpClientModule } from '@angular/common/http';
 

@@ -5,7 +5,7 @@ import { SpeakWithBotComponent } from '../speak-with-bot/speak-with-bot.componen
 import { SignRenterComponent } from '../sign-renter/sign-renter.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RenterStatus } from '../../statusEnum';
-import { RenterService } from '../services/renter.service';
+import { RenterService } from '../../service/renter.service';
 
 @Component({
   selector: 'app-nav-bar',

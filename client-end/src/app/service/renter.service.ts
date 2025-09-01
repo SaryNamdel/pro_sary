@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RenterStatus } from '../../statusEnum';
+import { RenterStatus } from '../statusEnum';
 
 @Injectable({
   providedIn: 'root'
